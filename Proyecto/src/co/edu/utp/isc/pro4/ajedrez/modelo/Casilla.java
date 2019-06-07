@@ -66,4 +66,9 @@ public class Casilla extends Dibujable {
         }
     }
 
+    public void setFichaNull() {
+         //To change body of generated methods, choose Tools | Templates.
+         this.ficha=null;
+    }
+
 }

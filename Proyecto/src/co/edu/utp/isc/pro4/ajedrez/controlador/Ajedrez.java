@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this tempdate file, choose Tools | Templates
  * and open the template in the editor.
  */
 package co.edu.utp.isc.pro4.ajedrez.controlador;
@@ -18,6 +18,7 @@ import co.edu.utp.isc.pro4.ajedrez.modelo.Rey;
 import co.edu.utp.isc.pro4.ajedrez.modelo.Tablero;
 import co.edu.utp.isc.pro4.ajedrez.modelo.Torre;
 import co.edu.utp.isc.pro4.ajedrez.ui.PnlTablero;
+import excepciones.MovimientoNoValidoException;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Ajedrez {
     /*Temporal*/
     private PnlTablero pnlTablero;
 
-    private Jugador[] jugadores;
+    public Jugador[] jugadores;
     private Tablero tablero;
     private Cronometro cronometro;
 
@@ -47,6 +48,7 @@ public class Ajedrez {
         this();
         this.jugadores[0] = jugador1;
         this.jugadores[1] = jugador2;
+        //jugadores[1].jugar(tablero.getCasilla("C8"),tablero.getCasilla("B8"));
     }
 
     public void setPnlTablero(PnlTablero pnlTablero) {
@@ -62,39 +64,22 @@ public class Ajedrez {
 
         cronometro.iniciar();
         mostrarTablero();
-        /*
-        do {
-            jugadores[turno].jugar();
-            // Validar si hay Jaque Mate y terminar
-            if (terminado) {
-                turno = (turno == 0 ? 1 : 0);
-                break;
-            } else if (validarJaqueMate()) {
-                terminado = true;
-                break;
-            } else if (validarTablas()) {
-                break;
-            }
-            // Sino, cambiar turno
-            cambioTurno();
-
-        } while (!terminado);
-        cronometro.parar();
-
-        //TODO: Cambiarlo de lugar
-        if (terminado) {
-            System.out.println("El Jugador "
-                    + jugadores[turno].getNombre() + " ha ganado");
-        } else {
-            System.out.println("Los jugadores han quedado en tablas");
-        }
-         */
+        
+        
+       
+    }
+    public int getTurno(){
+        return turno;
     }
 
     public void cambioTurno() {
         turno = (turno == 0 ? 1 : 0);
-        cronometro.cambio();
+        //cronometro.cambio();
     }
+    
+    public Tablero getTablero(){
+        return this.tablero;
+} 
 
     private boolean validarJaqueMate() {
         //TODO: Validar si el jugador contrario ha quedado en Jaque Mate
@@ -111,27 +96,27 @@ public class Ajedrez {
     }
 
     private void ubicarFichasTablero() {
-        asociarFichaTablero(tablero.getCasilla("A1"), new Torre(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("B1"), new Caballo(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("C1"), new Alfil(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("D1"), new Reina(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("E1"), new Rey(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("F1"), new Alfil(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("G1"), new Caballo(Color.BLANCO));
-        asociarFichaTablero(tablero.getCasilla("H1"), new Torre(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("A1"), new Torre(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("B1"), new Caballo(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("C1"), new Alfil(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("D1"), new Reina(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("E1"), new Rey(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("F1"), new Alfil(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("G1"), new Caballo(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("H1"), new Torre(Color.NEGRO));
 
-        asociarFichaTablero(tablero.getCasilla("A8"), new Torre(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("B8"), new Caballo(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("C8"), new Alfil(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("D8"), new Reina(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("E8"), new Rey(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("F8"), new Alfil(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("G8"), new Caballo(Color.NEGRO));
-        asociarFichaTablero(tablero.getCasilla("H8"), new Torre(Color.NEGRO));
+        asociarFichaTablero(tablero.getCasilla("A8"), new Torre(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("B8"), new Caballo(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("C8"), new Alfil(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("D8"), new Reina(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("E8"), new Rey(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("F8"), new Alfil(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("G8"), new Caballo(Color.BLANCO));
+        asociarFichaTablero(tablero.getCasilla("H8"), new Torre(Color.BLANCO));
 
         for (int i = 0; i < 8; i++) {
-            asociarFichaTablero(tablero.getCasilla(1, i), new Peon(Color.BLANCO));
-            asociarFichaTablero(tablero.getCasilla(6, i), new Peon(Color.NEGRO));
+            asociarFichaTablero(tablero.getCasilla(1, i), new Peon(Color.NEGRO));
+            asociarFichaTablero(tablero.getCasilla(6, i), new Peon(Color.BLANCO));
         }
 
     }
@@ -140,6 +125,13 @@ public class Ajedrez {
         f.setCasilla(c);
         c.setFicha(f);
     }
+    
+     public void moverFicha(String inicio, String fin) throws MovimientoNoValidoException {
+        jugadores[turno].jugar(tablero.getCasilla(inicio),tablero.getCasilla(fin));
+        this.mostrarTablero();
+        this.cambioTurno();
+    }
+
 
     private void mostrarTablero() {
         pnlTablero.updateUI();

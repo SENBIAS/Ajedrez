@@ -6,7 +6,7 @@
 package co.edu.utp.isc.pro4.ajedrez.modelo;
 
 import co.edu.utp.isc.pro4.ajedrez.controlador.Dibujable;
-
+import excepciones.MovimientoNoValidoException;
 /**
  *
  * @author utp
@@ -15,15 +15,31 @@ public abstract class Ficha extends Dibujable {
 
     private Casilla casilla;
     private final Color color;
+    private boolean jaque;
 
     public Ficha(Color color) {
         this.color = color;
+        this.jaque = false;
     }
 
-    public abstract void mover();
+    
+     public void setJaque(boolean haceJaque){
+        this.jaque = haceJaque;
+    }
+    public boolean getJaque(){
+        return jaque;
+    }        
+    public abstract boolean mover(Tablero tablero, Casilla casillaI, Casilla casillaF);
 
-    public abstract void comer();
-
+    public abstract void haceJaque(Tablero tablero);
+    
+    
+    
+    public void comer(Casilla casillaI, Casilla casillaF){
+        asociarFichaTablero((Caballo) casillaI.getFicha(),casillaF);
+        casillaI.setFichaNull();
+    };
+    
     public Casilla getCasilla() {
         return casilla;
     }
@@ -34,6 +50,14 @@ public abstract class Ficha extends Dibujable {
 
     public Color getColor() {
         return color;
+    }
+    
+    public void asociarFichaTablero(Ficha ficha,Casilla casilla){
+        ficha.setCasilla(casilla);
+        casilla.setFicha(ficha);
+    }
+    public void eliminarFichaTablero(Ficha ficha,Casilla casilla){
+        //Desasignar la ficha de la casilla y la casilla de la ficha
     }
 
     @Override
@@ -54,5 +78,7 @@ public abstract class Ficha extends Dibujable {
         }
         return tipo + (getColor() == Color.BLANCO ? "B" : "N");
     }
+
+        
 
 }
